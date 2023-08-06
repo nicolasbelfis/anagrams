@@ -45,9 +45,14 @@ public class AppTest {
   }
 
   @Test
-  public void two_letters_anagram() {
+  public void big_sentence_matching_anagrams() {
 
-    assertTrue(App.areAnagrams("ab", "ba"));
+    assertTrue(App.areAnagrams("New York Times !", " ¡ monkeys write!"));
   }
 
+  @Test
+  public void big_sentence_not_matching_anagrams() {
+
+    assertFalse(App.areAnagrams("I'm sick", "mike is"));
+  }
 }
