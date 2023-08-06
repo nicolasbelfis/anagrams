@@ -32,5 +32,11 @@ public class AppTest {
     assertTrue(App.areAnagrams("a", "a"));
   }
 
+  @Test
+  public void single_letter_identical_but_case_different_means_anagram() {
+
+    assertTrue(App.areAnagrams("a", "A"));
+  }
+
 
 }
