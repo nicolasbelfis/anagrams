@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 public class App {
 
   public static boolean areAnagrams(String sentence1, String sentence2) {
-    if (isNull(sentence1) || isNull(sentence2)) {
+    if (sentence1 == null || sentence2 == null) {
       return false;
     }
     if (sentence1.isEmpty() || sentence2.isEmpty()) {
@@ -22,26 +22,33 @@ public class App {
     Map<Character, Long> sentence1CharCount =
         sentence1Stream.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
-    boolean charsAllMatchedAtLeastOnce = sentence2Stream
-        .peek(sentence2Char -> decreaseCharCountInMap(sentence1CharCount, sentence2Char))
+    boolean charsAllMatchedAtLeastOnce = decreaseCharCount(sentence1CharCount, sentence2Stream)
         .allMatch(charSentence2 -> sentence1CharCount.get(charSentence2) != null);
 
-    return charsAllMatchedAtLeastOnce && sentence1CharCount.values().stream().allMatch(charCount -> charCount == 0);
+    return charsAllMatchedAtLeastOnce && isCharCountZero(sentence1CharCount);
   }
 
-  private static Long decreaseCharCountInMap(Map<Character, Long> sentence1CharCount, Character charSentence2) {
-    return sentence1CharCount.computeIfPresent(charSentence2, (unused, aLong) -> --aLong);
+  private static boolean isCharCountZero(Map<Character, Long> charCount) {
+    return charCount.values().stream().allMatch(count -> count == 0);
   }
 
-  private static Stream<Character> getLettersLowerCaseStream(String sentence1) {
-    return sentence1.chars()
+  private static Stream<Character> decreaseCharCount(
+      Map<Character, Long> charCount,
+      Stream<Character> OtherCharStream
+  ) {
+    return OtherCharStream
+        .peek(character -> decreaseCharCountInMap(charCount, character));
+  }
+
+  private static void decreaseCharCountInMap(Map<Character, Long> charCount, Character character) {
+    charCount.computeIfPresent(character, (unused, l) -> --l);
+  }
+
+  private static Stream<Character> getLettersLowerCaseStream(String sentence) {
+    return sentence.chars()
         .filter(Character::isAlphabetic)
         .map(Character::toLowerCase)
-        .mapToObj(operand -> (char) operand);
-  }
-
-  private static boolean isNull(String sentence1) {
-    return sentence1 == null;
+        .mapToObj(i -> (char) i);
   }
 
 }
