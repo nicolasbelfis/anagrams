@@ -19,18 +19,17 @@ public class App {
 
     Stream<Character> sentence2Stream = getLettersLowerCaseStream(sentence2);
 
-
     Map<Character, Long> sentence1CharCount =
         sentence1Stream.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
     boolean charsAllMatchedAtLeastOnce = sentence2Stream
-        .peek(charSentence2 -> decreaseCountOfCharInMap(sentence1CharCount, charSentence2))
+        .peek(sentence2Char -> decreaseCharCountInMap(sentence1CharCount, sentence2Char))
         .allMatch(charSentence2 -> sentence1CharCount.get(charSentence2) != null);
 
-    return sentence1CharCount.values().stream().allMatch(charCount -> charCount == 0 && charsAllMatchedAtLeastOnce);
+    return sentence1CharCount.values().stream().allMatch(charCount -> charCount == 0)  && charsAllMatchedAtLeastOnce;
   }
 
-  private static Long decreaseCountOfCharInMap(Map<Character, Long> sentence1CharCount, Character charSentence2) {
+  private static Long decreaseCharCountInMap(Map<Character, Long> sentence1CharCount, Character charSentence2) {
     return sentence1CharCount.computeIfPresent(charSentence2, (unused, aLong) -> --aLong);
   }
 
