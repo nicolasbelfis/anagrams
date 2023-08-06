@@ -10,15 +10,13 @@ public class AppTest {
   @Test
   public void empty_string_are_not_anagrams() {
 
-    boolean anagrams = App.areAnagrams("", "");
-    assertFalse(anagrams);
+    assertFalse(App.areAnagrams("", ""));
   }
 
   @Test
   public void null_are_not_anagrams() {
 
-    boolean anagrams = App.areAnagrams(null, null);
-    assertFalse(anagrams);
+    assertFalse(App.areAnagrams(null, null));
   }
 
   @Test
