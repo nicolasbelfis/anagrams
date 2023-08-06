@@ -38,5 +38,10 @@ public class AppTest {
     assertTrue(App.areAnagrams("a", "A"));
   }
 
+  @Test
+  public void ignores_punctuation() {
+
+    assertTrue(App.areAnagrams("a!", "!A"));
+  }
 
 }
