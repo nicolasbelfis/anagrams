@@ -26,7 +26,7 @@ public class App {
         .peek(sentence2Char -> decreaseCharCountInMap(sentence1CharCount, sentence2Char))
         .allMatch(charSentence2 -> sentence1CharCount.get(charSentence2) != null);
 
-    return sentence1CharCount.values().stream().allMatch(charCount -> charCount == 0)  && charsAllMatchedAtLeastOnce;
+    return charsAllMatchedAtLeastOnce && sentence1CharCount.values().stream().allMatch(charCount -> charCount == 0);
   }
 
   private static Long decreaseCharCountInMap(Map<Character, Long> sentence1CharCount, Character charSentence2) {
